@@ -41,7 +41,7 @@ var caps = selectedCaps ? capsConfig[selectedCaps] : undefined;
 var providerPrefix = process.env.PROVIDER_PREFIX ? process.env.PROVIDER_PREFIX + '-' : '';
 var testName = selectedCaps ? providerPrefix + selectedCaps : providerPrefix + 'default';
 
-var baseUrl = process.env.BASE_URL ? process.env.BASE_URL : 'http://www.urquidesband.com/bio/';
+var baseUrl = process.env.BASE_URL ? process.env.BASE_URL : 'http://www.urquidesband.com';
 
 var resultsCallback = process.env.DEBUG ? console.log : shoovWebdrivercss.processResults;
 
@@ -58,17 +58,22 @@ describe('Visual monitor testing', function() {
     shoovWebdrivercss.after(done);
   });
 
-  it('should show the about page',function(done) {
+  it('should show the contact page',function(done) {
     client
-      .url(baseUrl)
+      .url(baseUrl + '/contact')
       .execute(function() {
-        document.body.style.height = "1400px";
+        document.body.style.height = "1900px";
       })
-      .webdrivercss(testName + '.about', {
+      .pause(5000)
+      .webdrivercss(testName + '.contact', {
         name: '1',
         exclude: [],
-        remove: [],
-        hide: [],
+        remove:
+          [
+            '#page-54798b58e4b0b93ff70074d3 > div > div > div:nth-child(5)'
+          ],
+        hide:
+          [],
         screenWidth: selectedCaps == 'chrome' ? [960] : undefined,
       }, resultsCallback)
       .call(done);
